@@ -1,0 +1,44 @@
+[MASTER]
+# Use multiple processes to speed up Pylint (0 = auto-detect)
+jobs=0
+
+[FORMAT]
+# Allow longer lines than the default 100 — you write descriptive
+# variable names and nested config lookups, so 120 gives breathing room.
+max-line-length=140
+
+[MESSAGES CONTROL]
+# Disable specific noisy/non-actionable checks rather than whole categories,
+# so real issues in those categories still get flagged.
+disable=
+    logging-fstring-interpolation,  ; you use f-strings in logging calls (_logger.info(f"...")) —
+                                     ; this is "lazy formatting" by pylint's definition, but fine for a script
+                                     ; that isn't at extreme log-volume/perf-sensitive scale
+    logging-not-lazy,                ; same reasoning, covers %-style non-lazy calls too
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,          ; small config/data classes don't need many methods
+    too-many-instance-attributes,    ; Anomaly_model and opcua_client legitimately track a lot of state
+    broad-except,                    ; you deliberately use broad except + logging.exception in several
+                                      ; places (per-write isolation in opcua_client, model predict methods)
+                                      ; — this is an intentional pattern, not sloppiness
+    fixme,                           ; allow TODO/FIXME comments without warnings
+    invalid-name,                    ; allows shorter/domain-specific names (e.g. `df`, `rf`, single-letter loop vars)
+
+[DESIGN]
+# Allow a few more arguments/locals than pylint's defaults, since
+# constructors like Anomaly_model.__init__ take several config-driven params.
+max-args=8
+max-locals=20
+max-branches=15
+max-statements=60
+
+[BASIC]
+# Relax naming convention strictness for short-lived loop/lambda variables
+good-names=i,j,k,e,f,df,rf,ex,_
+
+[SIMILARITIES]
+# Avoid duplicate-code warnings from short, structurally similar except
+# blocks (e.g. the try/except JSON config parsing) triggering false positives
+min-similarity-lines=10

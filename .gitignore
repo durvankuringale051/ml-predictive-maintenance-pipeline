@@ -1,0 +1,29 @@
+# --- Secrets / environment -------------------------------------------------
+Config/.env
+.env
+*.env
+
+# --- Python ------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# --- Pipeline runtime output ---------------------------------------------
+pipeline.log
+pipeline.log.*
+*.csv
+
+# --- OS / editor junk -----------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Model artifacts (uncomment if you don't want .pkl files in git) ------
+# ML_model/*.pkl
